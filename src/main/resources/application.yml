@@ -7,6 +7,24 @@ server:
       enabled: true
 
 spring:
+  mail:
+    # Google smtp server 사용
+    host: smtp.gmail.com
+    port: 587
+    username: minj9850610@gmail.com
+    password: czkpvbakfvxflpfr
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+      auth-code-expiration-millis: 1800000
+
   mvc:
     view:
       prefix: /views/
@@ -37,3 +55,5 @@ spring:
       password: 1234
 
 
+file:
+  path: C:/workspace/springbootwork/upload/
