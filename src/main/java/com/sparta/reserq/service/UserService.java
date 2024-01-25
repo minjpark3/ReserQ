@@ -6,6 +6,7 @@ import com.sparta.reserq.dto.UserProfileDto;
 import com.sparta.reserq.ex.CustomException;
 import com.sparta.reserq.ex.CustomValidationApiException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
+@Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -42,6 +46,7 @@ public class UserService {
         userEntity.setProfileImageUrl(imageFileName);
         return userEntity;
     }
+
 
 //    @Transactional(readOnly = true)
 //    public UserProfileDto 회원프로필(int pageUserId, int principalId){

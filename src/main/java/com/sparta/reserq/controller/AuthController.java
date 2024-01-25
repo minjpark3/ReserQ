@@ -1,4 +1,4 @@
-package com.sparta.reserq.config.auth;
+package com.sparta.reserq.controller;
 
 import com.sparta.reserq.domain.user.User;
 import com.sparta.reserq.dto.SignupDto;
@@ -54,12 +54,11 @@ public class AuthController {
 public ResponseEntity<String> signup(@RequestBody SignupDto signupDto) {
     // 유효성 검사를 수행하지 않고 진행
 
-    // 나머지 코드는 동일하게 유지
     User user = signupDto.toEntity();
-    User userEntity = authService.signUp(user);
-    System.out.println(userEntity);
-    return ResponseEntity.ok("ok");
+    authService.signUpAndSendEmail(user); // 변경된 부분
+    return ResponseEntity.ok("Signup successful. Please check your email for verification.");
 }
+
 
 
 }

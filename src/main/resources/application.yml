@@ -12,18 +12,14 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: minj9850610@gmail.com
-    password: czkpvbakfvxflpfr
+    password: czkp vbak fvxf lpfr
     properties:
       mail:
         smtp:
           auth: true
+          timeout: 5000
           starttls:
             enable: true
-            required: true
-          connectiontimeout: 5000
-          timeout: 5000
-          writetimeout: 5000
-      auth-code-expiration-millis: 1800000
 
   mvc:
     view:
