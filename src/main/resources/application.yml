@@ -52,4 +52,7 @@ spring:
 
 
 file:
-  path: C:/workspace/springbootwork/upload/
+
+
+jwt:
+  secret:

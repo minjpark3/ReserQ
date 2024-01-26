@@ -6,20 +6,20 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-
+@Builder
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "user_id")
+    private Long id;
 
 
-    @Column(length = 30, unique = true)
+    @Column(unique = true)
     private String email;
     @Column(nullable = false)
     private String username;//이름
@@ -44,5 +44,7 @@ public class User {
     private boolean verified; // 이메일 인증 여부
 
     private String verificationToken; // 이메일 인증을 위한 토큰
+
+
 
 }

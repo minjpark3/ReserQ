@@ -2,7 +2,10 @@ package com.sparta.reserq.domain.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
-    //JPA query method
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
+
+    Optional<User> findByEmail(String email);
 }
