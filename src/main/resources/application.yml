@@ -7,6 +7,9 @@ server:
       enabled: true
 
 spring:
+  profiles:
+    active:
+      - dev
   mail:
     # Google smtp server 사용
     host: smtp.gmail.com
@@ -20,11 +23,6 @@ spring:
           timeout: 5000
           starttls:
             enable: true
-
-  mvc:
-    view:
-      prefix: /views/
-      suffix: .jsp
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -51,8 +49,5 @@ spring:
       password: 1234
 
 
-file:
-
-
-jwt:
-  secret:
+#jwt:
+#  secret: your_actual_secret_key
