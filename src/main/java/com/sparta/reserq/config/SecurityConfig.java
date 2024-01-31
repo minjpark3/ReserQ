@@ -27,11 +27,12 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/","/api/**").permitAll()
                         .requestMatchers("api/join").permitAll()
                         .requestMatchers("/api/verify").permitAll()
                         .requestMatchers( "/api/login").permitAll()
-                        .requestMatchers( "api/posts").permitAll()
-                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers( "api/posts/**").permitAll()
+                        .requestMatchers("/api/comment/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/refreshToken").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

@@ -3,17 +3,20 @@ package com.sparta.reserq.jwt;
 
 import com.sparta.reserq.domain.user.User;
 import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Set;
-
+//사용자 인증및 권한정보를 나태내줌
 public class UserDetailsImpl implements UserDetails {
     private final Long id;
     private final String email;
     private final String password;
     private final String name;
+
     private Collection<? extends GrantedAuthority> authorities;
 
     @Builder
@@ -35,6 +38,14 @@ public class UserDetailsImpl implements UserDetails {
                 .password(user.getPassword())
                 .name(user.getName())
                 .authorities(Set.of())
+                .build();
+    }
+    public User toUser() {
+        return User.builder()
+                .id(id)
+                .email(email)
+                .password(password)
+                .name(name)
                 .build();
     }
 

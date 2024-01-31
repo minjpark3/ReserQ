@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
-
+//사용자의 이메일을 기반으로 데이터베이스에서 사용자 정보 가져오는
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;

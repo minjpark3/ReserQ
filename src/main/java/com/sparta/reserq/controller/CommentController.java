@@ -1,5 +1,5 @@
 package com.sparta.reserq.controller;
-
+import com.sparta.reserq.service.CommentService;
 import com.sparta.reserq.domain.dto.CMRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
