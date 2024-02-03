@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "likes_uk",
-                        columnNames = {"imageId","userId"}
+                        columnNames = {"postsId","userId"}
                 )
         }
 )           //N
