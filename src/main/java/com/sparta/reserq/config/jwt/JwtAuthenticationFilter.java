@@ -1,4 +1,4 @@
-package com.sparta.reserq.jwt;
+package com.sparta.reserq.config.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -38,13 +38,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final HttpServletResponse response,
             final FilterChain filterChain
     ) throws ServletException, IOException, ServletException, IOException {
-
         try {
             final String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-
             final String token = parseBearerToken(authorizationHeader);
 
             String email = jwtTokenProvider.getEmail(token, TokenType.ACCESS);
+
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
             AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -52,6 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     token,
                     userDetails.getAuthorities()
             );
+
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             log.info("jwt 인증 필터를 통과하였습니다.");

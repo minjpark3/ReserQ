@@ -23,7 +23,7 @@ import java.util.Map;
 public class AuthController {
     private final AuthService authService;
 
-
+    //회원가입
     @PostMapping("/api/join")
     public ResponseEntity<String> signup(@Valid @RequestBody SignupDto signupDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -33,15 +33,16 @@ public class AuthController {
                 errorMap.put(error.getField(), error.getDefaultMessage());
                 System.out.println(error.getDefaultMessage());
             }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Signup failed due to validation errors.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입실패.");
         } else {
             // 유효성 검사 통과 시 회원가입 진행
             User user = signupDto.toEntity();
             authService.signUpAndSendEmail(user);
-            return ResponseEntity.ok("Signup successful. Please check your email for verification.");
+            return ResponseEntity.ok("이메일에서 인증번호 확인 해보세요.");
         }
     }
 
+    //가입시 메일인증
     @PostMapping("/api/verify")
     public ResponseEntity<String> verifyEmail(@RequestBody VerificationRequest verificationRequest) {
         String email = verificationRequest.getEmail();
@@ -52,19 +53,21 @@ public class AuthController {
 
         if (verificationResult) {
             // 인증 성공
-            return ResponseEntity.ok("Email verification successful.");
+            return ResponseEntity.ok("회원가입 성공.");
         } else {
             // 인증 실패
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email verification failed.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이메일 인증실패, 다시 가입해주세요.");
         }
     }
+
+    //로그인
     @PostMapping("/api/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         try {
             String jwtToken = authService.login(loginRequest);
             return ResponseEntity.ok(jwtToken);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed. " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패. " + e.getMessage());
         }
     }
 

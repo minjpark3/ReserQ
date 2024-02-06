@@ -3,8 +3,8 @@ package com.sparta.reserq.service;
 import com.sparta.reserq.domain.dto.LoginRequest;
 import com.sparta.reserq.domain.user.User;
 import com.sparta.reserq.domain.user.UserRepository;
-import com.sparta.reserq.jwt.JwtTokenProvider;
-import com.sparta.reserq.jwt.TokenType;
+import com.sparta.reserq.config.jwt.JwtTokenProvider;
+import com.sparta.reserq.config.jwt.TokenType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -65,13 +65,14 @@ public class AuthService {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
-                // Passwords match, generate and return JWT token using JwtTokenProvider
-                return jwtTokenProvider.generate(email, user.getName(), TokenType.ACCESS);
+                String token = jwtTokenProvider.generate(email, user.getName(), TokenType.ACCESS);
+                jwtTokenProvider.getEmail(token, TokenType.ACCESS);
+                return token;
             } else {
-                throw new IllegalArgumentException("Invalid password");
+                throw new IllegalArgumentException("잘못된 비밀번호");
             }
         } else {
-            throw new IllegalArgumentException("User not found");
+            throw new IllegalArgumentException("유저를 찾을수 없습니다");
         }
     }
 }

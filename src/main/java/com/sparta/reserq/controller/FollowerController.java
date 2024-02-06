@@ -1,7 +1,7 @@
 package com.sparta.reserq.controller;
 
 import com.sparta.reserq.domain.dto.CMRespDto;
-import com.sparta.reserq.jwt.UserDetailsImpl;
+import com.sparta.reserq.config.jwt.UserDetailsImpl;
 import com.sparta.reserq.service.FollowerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,15 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class FollowerController {
     private final FollowerService followerService;
 
-    @PostMapping("/api/subscribe/{toUserId}")
-    public ResponseEntity<?> subscribe(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long toUserId) throws Exception {
+    @PostMapping("/api/follower/{toUserId}")
+    public ResponseEntity<?> subscribe(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable(name = "toUserId") Long toUserId) throws Exception {
         followerService.follow(userDetails.getId(), toUserId);
-        return new ResponseEntity<>(new CMRespDto<>(1, "구독하기됨", null), HttpStatus.OK);
+        return new ResponseEntity<>(new CMRespDto<>(1, "팔로우됨", null), HttpStatus.OK);
     }
 
-    @DeleteMapping("/api/subscribe/{toUserId}")
-    public ResponseEntity<?> unsubscribe(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long toUserId) {
+    @DeleteMapping("/api/follower/{toUserId}")
+    public ResponseEntity<?> unsubscribe(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable(name = "toUserId") Long toUserId) {
         followerService.unfollow(userDetails.getId(), toUserId);
-        return new ResponseEntity<>(new CMRespDto<>(1, "구독취소하기됨", null), HttpStatus.OK);
+        return new ResponseEntity<>(new CMRespDto<>(1, "언팔됨", null), HttpStatus.OK);
     }
 }
+

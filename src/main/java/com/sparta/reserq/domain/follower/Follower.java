@@ -27,10 +27,12 @@ public class Follower {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnoreProperties({"posts"})
     @ManyToOne
     @JoinColumn(name = "fromUserId")
     private User fromUser;
 
+    @JsonIgnoreProperties({"posts"})
     @ManyToOne
     @JoinColumn(name = "toUserId")
     private User toUser;
@@ -42,5 +44,4 @@ public class Follower {
         this.createDate = LocalDateTime.now();
     }
 
-    // Getter and Setter
 }

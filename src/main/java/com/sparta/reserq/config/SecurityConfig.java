@@ -1,9 +1,12 @@
-package com.sparta.reserq.jwt;
+package com.sparta.reserq.config;
 
+import com.sparta.reserq.config.jwt.CustomAuthenticationEntryPoint;
+import com.sparta.reserq.config.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,12 +30,9 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/","/api/**").permitAll()
-                        .requestMatchers("api/join").permitAll()
-                        .requestMatchers("/api/verify").permitAll()
-                        .requestMatchers( "/api/login").permitAll()
-                        .requestMatchers( "api/posts/**").permitAll()
-                        .requestMatchers("/api/comment/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/join").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/verify").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/refreshToken").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

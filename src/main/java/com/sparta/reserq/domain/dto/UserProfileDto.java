@@ -1,11 +1,15 @@
 package com.sparta.reserq.domain.dto;
 
-import lombok.Data;
+import com.sparta.reserq.domain.user.User;
+import lombok.*;
 
-@Data
-public class UserUpdateInfoDto {
-
-
-    private String profileImageUrl;
-    private String greeting;
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class UserProfileDto {
+    private boolean pageOwnerState;
+    private boolean subscribeState;
+    private User user;
 }

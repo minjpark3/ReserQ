@@ -1,10 +1,8 @@
-package com.sparta.reserq.jwt;
+package com.sparta.reserq.config.jwt;
 
 
 import com.sparta.reserq.domain.user.User;
 import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -52,7 +50,6 @@ public class UserDetailsImpl implements UserDetails {
     public Long getId() {
         return id;
     }
-
     public String getEmail() {
         return email;
     }

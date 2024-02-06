@@ -30,21 +30,21 @@ public class User {
     @Column(nullable = false)
     private String greeting; //인사말
 
-    private LocalDateTime created_at;
+    private LocalDateTime createDate;
 
     @PrePersist
     private void created_at(){
-        this.created_at=LocalDateTime.now();
+        this.createDate=LocalDateTime.now();
     }
 
 
     @CreationTimestamp
-    private LocalDateTime updated_at;
-
+    private LocalDateTime updateData;
+    @Transient
     private boolean verified; // 이메일 인증 여부
 
     private String verificationToken; // 이메일 인증을 위한 토큰
-
-
+    @Transient
+    private String role;
 
 }

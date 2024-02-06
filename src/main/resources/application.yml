@@ -27,14 +27,14 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ReserQ?serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/ReserQ?serverTimezone=Asia/Seoul
     username: root
     password: cos1234
 
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
@@ -52,10 +52,11 @@ spring:
 
 jwt:
   secret-key:
-    access: sjghkjhsafsisiiahshkzds
-    refresh: asjlkajslkgjlasoipqwpirp
+    access: reservation_purchase_2024_access_secret_key
+    refresh: reservation_purchase_2024_accefs_secret_key
 
   expired-time:
     token:
       access: 2500000000
       refresh: 25000000000000
+

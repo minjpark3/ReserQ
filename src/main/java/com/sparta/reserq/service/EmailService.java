@@ -18,7 +18,7 @@ public class EmailService {
         try {
             message.setFrom(senderEmail);
             message.setRecipients(MimeMessage.RecipientType.TO, mail);
-            message.setSubject("Email Verification");
+            message.setSubject("이메일 인증");
             message.setText(verificationToken, "UTF-8", "html");
             javaMailSender.send(message);
         } catch (MessagingException e) {

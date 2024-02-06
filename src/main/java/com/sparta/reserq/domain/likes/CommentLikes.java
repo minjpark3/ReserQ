@@ -1,6 +1,7 @@
 package com.sparta.reserq.domain.likes;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sparta.reserq.domain.comment.Comment;
 import com.sparta.reserq.domain.posts.Posts;
 import com.sparta.reserq.domain.user.User;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -20,18 +22,18 @@ import java.time.LocalDateTime;
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "likes_uk",
-                        columnNames = {"postsId","userId"}
+                        columnNames = {"commentId","userId"}
                 )
         }
 )           //N
-public class PostsLikes {
+public class CommentLikes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "postsId")
-    private Posts posts;
+    @JoinColumn(name = "commentId")
+    private Comment comment;
 
 
     @JsonIgnoreProperties({"posts"})

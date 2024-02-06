@@ -1,7 +1,9 @@
 package com.sparta.reserq.service;
 
 import com.sparta.reserq.domain.dto.PasswordUpdateDto;
-import com.sparta.reserq.domain.dto.UserUpdateInfoDto;
+import com.sparta.reserq.domain.dto.UserProfileDto;
+import com.sparta.reserq.domain.follower.Follower;
+import com.sparta.reserq.domain.follower.FollowerRepository;
 import com.sparta.reserq.domain.user.User;
 import com.sparta.reserq.domain.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -10,49 +12,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-
+@RequiredArgsConstructor
 @Service
 public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
+    private final FollowerRepository followerRepository;
 
-    @Autowired
-    public UserService(BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository) {
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.userRepository = userRepository;
-    }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
     public User getUserById(Long userId) {
         // 사용자 ID를 사용하여 데이터베이스에서 사용자 정보를 조회
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("사용자 못찾음"));
     }
-    public void updateUserInfo(Long userId, UserUpdateInfoDto updateInfoDto) {
-        User existingUser = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
-        if (updateInfoDto.getName() != null) {
-            existingUser.setName(updateInfoDto.getName());
-        }
+    public User updateUserInfo(Long userId, User user) {
+        User userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("사용자 못찾음: " + userId));
+        userEntity.setName(user.getName());
+        userEntity.setProfileImageUrl(user.getProfileImageUrl());
+        userEntity.setGreeting(user.getGreeting());
+        userRepository.save(userEntity);
 
-        if (updateInfoDto.getProfileImageUrl() != null) {
-            existingUser.setProfileImageUrl(updateInfoDto.getProfileImageUrl());
-        }
+        return userEntity;
 
-        if (updateInfoDto.getGreeting() != null) {
-            existingUser.setGreeting(updateInfoDto.getGreeting());
-        }
-
-        userRepository.save(existingUser);
     }
 
     public void updatePassword(Long userId, PasswordUpdateDto passwordUpdateDto) {
         User existingUser = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+                .orElseThrow(() -> new EntityNotFoundException("사용자 못찾음: " + userId));
 
         if (passwordUpdateDto.getPassword() != null) {
             // 비밀번호 암호화
@@ -61,5 +55,24 @@ public class UserService {
         }
 
         userRepository.save(existingUser);
+    }
+    public List<User> getFollowedUsers(Long userId) {
+        List<Follower> followers = followerRepository.findByFromUserId(userId);
+
+        List<User> followedUsers = new ArrayList<>();
+        for (Follower follower : followers) {
+            followedUsers.add(follower.getToUser());
+        }
+
+        return followedUsers;
+    }
+
+    //============================================================
+    //============================================================
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("사용자 못찾음"));
+
     }
 }

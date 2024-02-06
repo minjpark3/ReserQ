@@ -1,4 +1,4 @@
-package com.sparta.reserq.jwt;
+package com.sparta.reserq.config.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.sparta.reserq.jwt;
+package com.sparta.reserq.config.jwt;
 
 import com.sparta.reserq.domain.user.User;
 import com.sparta.reserq.domain.user.UserRepository;
