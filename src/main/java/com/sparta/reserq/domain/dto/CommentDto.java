@@ -1,11 +1,12 @@
 package com.sparta.reserq.domain.dto;
 
-import lombok.Data;
+
+import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
 public class CommentDto {
 
     @NotBlank

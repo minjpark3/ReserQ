@@ -28,9 +28,11 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseEntity<User> updateUser(
             @PathVariable Long userId,
-            @RequestBody UserUpdateDto userUpdateDto) {
+            @RequestBody User user) {
         try {
-            User updatedUser = userService.updateUserInfo(userId, userUpdateDto.toEntity());
+            UserUpdateDto userUpdateDto = new UserUpdateDto(user.getName(), user.getProfileImageUrl(), user.getGreeting());
+
+            User updatedUser = userService.updateUserInfo(userId, userUpdateDto);
             return ResponseEntity.ok(updatedUser);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

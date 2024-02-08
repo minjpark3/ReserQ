@@ -68,18 +68,18 @@ public class PostsController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<String> updatePost(
-            @PathVariable Long id,
-            @RequestBody PostsReqDto postsReqDto,
-            @AuthenticationPrincipal UserDetailsImpl principalDetails) {
-        try {
-            postsService.updatePost(id, postsReqDto);
-            return ResponseEntity.ok("게시글이 업데이트되었습니다.");
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("게시글을 찾을 수 없습니다.");
-        }
-    }
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity<String> updatePost(
+//            @PathVariable Long id,
+//            @RequestBody PostsReqDto postsReqDto,
+//            @AuthenticationPrincipal UserDetailsImpl principalDetails) {
+//        try {
+//            postsService.updatePost(id, postsReqDto);
+//            return ResponseEntity.ok("게시글이 업데이트되었습니다.");
+//        } catch (EntityNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("게시글을 찾을 수 없습니다.");
+//        }
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(

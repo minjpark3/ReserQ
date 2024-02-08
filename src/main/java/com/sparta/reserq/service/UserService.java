@@ -1,25 +1,32 @@
 package com.sparta.reserq.service;
 
+import com.sparta.reserq.config.jwt.JwtTokenProvider;
+import com.sparta.reserq.config.jwt.TokenType;
+import com.sparta.reserq.domain.dto.LoginRequest;
 import com.sparta.reserq.domain.dto.PasswordUpdateDto;
-import com.sparta.reserq.domain.dto.UserProfileDto;
+import com.sparta.reserq.domain.dto.UserUpdateDto;
 import com.sparta.reserq.domain.follower.Follower;
 import com.sparta.reserq.domain.follower.FollowerRepository;
 import com.sparta.reserq.domain.user.User;
 import com.sparta.reserq.domain.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
     private final FollowerRepository followerRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final EmailService emailService;
 
 
     public List<User> getAllUsers() {
@@ -27,35 +34,32 @@ public class UserService {
     }
 
     public User getUserById(Long userId) {
-        // 사용자 ID를 사용하여 데이터베이스에서 사용자 정보를 조회
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자 못찾음"));
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
     }
+    @Transactional
+    public User updateUserInfo(Long userId, UserUpdateDto userUpdateDto) {
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다: " + userId));
 
-    public User updateUserInfo(Long userId, User user) {
-        User userEntity = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("사용자 못찾음: " + userId));
-        userEntity.setName(user.getName());
-        userEntity.setProfileImageUrl(user.getProfileImageUrl());
-        userEntity.setGreeting(user.getGreeting());
-        userRepository.save(userEntity);
+        User updatedUser = userUpdateDto.toEntity();
+        existingUser.update(updatedUser.getName(), updatedUser.getProfileImageUrl(), updatedUser.getGreeting());
 
-        return userEntity;
-
+        return userRepository.save(existingUser);
     }
-
+    @Transactional
     public void updatePassword(Long userId, PasswordUpdateDto passwordUpdateDto) {
         User existingUser = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("사용자 못찾음: " + userId));
+                .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다: " + userId));
 
         if (passwordUpdateDto.getPassword() != null) {
-            // 비밀번호 암호화
             String encryptedPassword = bCryptPasswordEncoder.encode(passwordUpdateDto.getPassword());
             existingUser.setPassword(encryptedPassword);
         }
 
         userRepository.save(existingUser);
     }
+    @Transactional
     public List<User> getFollowedUsers(Long userId) {
         List<Follower> followers = followerRepository.findByFromUserId(userId);
 
@@ -65,6 +69,60 @@ public class UserService {
         }
 
         return followedUsers;
+    }
+    @Transactional
+    public void signUpAndSendEmail(User user) {
+        String rawPassword = user.getPassword();
+        String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+        user.setPassword(encPassword);
+
+        String verificationToken = generateVerificationToken();
+        user.setVerificationToken(verificationToken);
+
+        userRepository.save(user);
+        emailService.sendVerificationEmail(user.getEmail(), verificationToken);
+    }
+
+    private String generateVerificationToken() {
+        int randomNumber = (int) ((Math.random() * (999999 - 100000 + 1)) + 100000);
+        return String.valueOf(randomNumber);
+    }
+
+    @Transactional
+    public boolean verifyVerificationToken(String email, String verificationToken) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (user.getVerificationToken().equals(verificationToken)) {
+                user.setVerified(true);
+                userRepository.save(user);
+                return true;
+            } else {
+                userRepository.delete(user);
+                // 실패한 경우 사용자 삭제 또는 다른 작업 수행
+            }
+        }
+        return false;
+    }
+
+    public String login(LoginRequest loginRequest) {
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+
+        Optional<User> userOptional = userRepository.findByEmail(email);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
+                String token = jwtTokenProvider.generate(email, user.getName(), TokenType.ACCESS);
+                jwtTokenProvider.getEmail(token, TokenType.ACCESS);
+                return token;
+            } else {
+                throw new IllegalArgumentException("잘못된 비밀번호");
+            }
+        } else {
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다");
+        }
     }
 
     //============================================================

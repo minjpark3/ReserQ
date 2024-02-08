@@ -3,14 +3,11 @@ package com.sparta.reserq.domain.dto;
 import com.sparta.reserq.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @NoArgsConstructor
 @Getter
-@Setter
 public class SignupDto {
     @NotBlank(message = "아이디를 입력해주세요.")
     private String email;

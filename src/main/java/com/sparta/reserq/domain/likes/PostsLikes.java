@@ -4,17 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sparta.reserq.domain.posts.Posts;
 import com.sparta.reserq.domain.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
 @Entity
 @Table(
         uniqueConstraints = {
@@ -34,7 +30,7 @@ public class PostsLikes {
     private Posts posts;
 
 
-    @JsonIgnoreProperties({"posts"})
+
     @JoinColumn(name = "userId")
     @ManyToOne
     private User user;

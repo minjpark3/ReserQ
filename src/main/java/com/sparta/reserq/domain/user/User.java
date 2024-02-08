@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 
 @Builder
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -46,5 +45,35 @@ public class User {
     private String verificationToken; // 이메일 인증을 위한 토큰
     @Transient
     private String role;
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public User(Long id, String name, String profileImageUrl, String greeting) {
+        this.id = id;
+        this.name = name;
+        this.profileImageUrl = profileImageUrl;
+        this.greeting = greeting;
+    }
+    public void update(String name, String profileImageUrl, String greeting) {
+        if (name != null) {
+            this.name = name;
+        }
+        if (profileImageUrl != null) {
+            this.profileImageUrl = profileImageUrl;
+        }
+        if (greeting != null) {
+            this.greeting = greeting;
+        }
+    }
+
+    public void setVerificationToken(String verificationToken) {
+        this.verificationToken = verificationToken;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
 
 }

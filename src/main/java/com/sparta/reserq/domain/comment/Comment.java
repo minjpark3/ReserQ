@@ -7,10 +7,7 @@ import com.sparta.reserq.domain.newsFeed.NewsFeed;
 import com.sparta.reserq.domain.posts.Posts;
 import com.sparta.reserq.domain.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,7 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
 @Entity
 public class Comment {
         @Id
@@ -28,30 +25,21 @@ public class Comment {
         @Column(length = 200, nullable = false)
         private String content;
 
-        @JsonIgnoreProperties({"posts"})
         @JoinColumn(name = "userId")
         @ManyToOne
-        @JsonIgnore
         private User user;
 
         @JoinColumn(name = "postsId")
         @ManyToOne
-        @JsonIgnore
         private Posts posts;
 
-        @JsonIgnoreProperties({"comment"})
-        @OneToMany(mappedBy = "comment")
-        private List<CommentLikes> likes;
+//        @JsonIgnoreProperties({"comment"})
+//        @OneToMany(mappedBy = "comment")
+//        private List<CommentLikes> likes;
 
         @ManyToOne
         @JoinColumn(name = "newsFeedId")
         private NewsFeed newsFeed;
-
-        @Transient
-        private boolean likeState;
-
-        @Transient
-        private int likeCount;
 
         private LocalDateTime createDate;
 
@@ -59,7 +47,14 @@ public class Comment {
         private void createDate() {
             this.createDate = LocalDateTime.now();
         }
-    }
+
+//        @Transient
+//        private boolean likeState;
+//
+//        @Transient
+//        private int likeCount;
+
+}
 
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
