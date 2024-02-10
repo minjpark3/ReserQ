@@ -8,7 +8,7 @@ server:
 
 spring:
   mail:
-    # Google smtp server 사용
+    # Google smtp server ??
     host: smtp.gmail.com
     port: 587
     username: minj9850610@gmail.com
@@ -59,4 +59,5 @@ jwt:
     token:
       access: 2500000000
       refresh: 25000000000000
+
 
