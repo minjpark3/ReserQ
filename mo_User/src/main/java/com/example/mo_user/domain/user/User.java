@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "Users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +34,13 @@ public class User {
     private String greeting; //인사말
 
     private LocalDateTime createDate;
+    @CreationTimestamp
+    private LocalDateTime updateData;
+    private boolean verified; // 이메일 인증 여부
+
+    private String verificationToken; // 이메일 인증을 위한 토큰
+    private String role;
+
 
     @PrePersist
     private void created_at(){
@@ -40,14 +48,7 @@ public class User {
     }
 
 
-    @CreationTimestamp
-    private LocalDateTime updateData;
-    @Transient
-    private boolean verified; // 이메일 인증 여부
 
-    private String verificationToken; // 이메일 인증을 위한 토큰
-    @Transient
-    private String role;
 
     public void setPassword(String password) {
         this.password = password;

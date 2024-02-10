@@ -33,6 +33,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/api/verify").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/refreshToken").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/internal/users/check").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/internal/users/find").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(handle -> handle.authenticationEntryPoint(customAuthenticationEntryPoint))

@@ -1,3 +1,4 @@
 rootProject.name = 'ReserQ'
 
 include 'mo_User'
+include 'mo_Activities'
