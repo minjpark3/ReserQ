@@ -34,14 +34,13 @@ public class Posts {
     private String content;
 
 
+    @Column(name = "createDate")
     private LocalDateTime createDate;
-    @PrePersist //디비에 insert되기 전에 실행
-    private void createDate(){
-        this.createDate=LocalDateTime.now();
-    }
-    @CreationTimestamp
-    private LocalDateTime updateData;
 
+    @PrePersist
+    protected void onCreate() {
+        createDate = LocalDateTime.now();
+    }
     @Builder
     public Posts(Long userId, String title, String content) {
         this.userId = userId;

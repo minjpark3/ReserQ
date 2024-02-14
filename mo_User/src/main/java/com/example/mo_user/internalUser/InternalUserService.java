@@ -14,13 +14,13 @@ public class InternalUserService {
         this.userRepository = userRepository;
     }
 
-    public boolean checkUserExists(Long principalId) {
-        return userRepository.existsById(principalId);
+    public boolean checkUserExists(Long userId) {
+        return userRepository.existsById(userId);
     }
 
-    public String findUserName(Long principalId) {
-        User findUser = userRepository.findById(principalId)
-                .orElseThrow(()->new IllegalArgumentException ("can't find user"));
+    public String findUserName(Long userId) {
+        User findUser = userRepository.findById(userId)
+                .orElseThrow(()->new IllegalArgumentException ("사용자를 찾을 수 없습니다."));
 
         return findUser.getName();
     }

@@ -1,6 +1,8 @@
 package com.example.mo_activity.service;
 
 import com.example.mo_activity.CustomValidationApiException;
+import com.example.mo_activity.client.NewsfeedClient;
+import com.example.mo_activity.client.NewsfeedClientReq;
 import com.example.mo_activity.client.UserClient;
 import com.example.mo_activity.domain.comment.Comment;
 import com.example.mo_activity.domain.comment.CommentRepository;
@@ -11,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -18,23 +22,35 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostsRepository postsRepository;
     private final UserClient userClient;
+    private final NewsfeedClient newsfeedClient;
 
     @Transactional
-    public Comment createComment(CommentDto commentDto) {
+    public void create(CommentDto commentDto) {
         Long userId = commentDto.getUserId();
+        String type = "COMMENT";
         Posts posts = postsRepository.findById(commentDto.getPostsId())
-                .orElseThrow(() -> new CustomValidationApiException("게시물을 찾을수 없습니다."));
+            .orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
 
         if (!userClient.checkUserExists(userId)) {
-            throw new IllegalArgumentException("user not exists");
+            throw new IllegalArgumentException("유저를 찾을수 없습니다.");
         }
 
-        Comment comment = Comment.builder()
-                .content(commentDto.getContent())
-                .posts(posts)
+        Comment newComment = Comment.builder()
                 .userId(userId)
+                .posts(posts)
+                .content(commentDto.getContent())
                 .build();
 
-        return commentRepository.save(comment);
+        commentRepository.save(newComment);
+
+        // 뉴스피드 요청 DTO 생성
+        NewsfeedClientReq newsfeedClientReq = new NewsfeedClientReq(
+                userId,
+                type,
+                posts.getId()
+        );
+        newsfeedClient.create(newsfeedClientReq);
+
     }
+
 }

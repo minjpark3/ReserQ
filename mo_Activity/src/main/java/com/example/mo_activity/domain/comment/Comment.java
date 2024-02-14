@@ -17,9 +17,10 @@ import java.time.LocalDateTime;
 public class Comment {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "commentId")
         private Long id;
 
-        @Column(length = 200, nullable = false)
+        @Column(name ="content",length = 200, nullable = false)
         private String content;
 
         @Column(name = "userId")
@@ -29,12 +30,11 @@ public class Comment {
         @ManyToOne
         private Posts posts;
 
-
+        @Column(name = "createDate")
         private LocalDateTime createDate;
-
         @PrePersist
-        private void createDate() {
-                this.createDate = LocalDateTime.now();
+        protected void onCreate() {
+                createDate = LocalDateTime.now();
         }
 
 }

@@ -8,11 +8,8 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 public class CommentDto {
-    @NotBlank
-    private String content;
-    @NotNull
-    private Long postsId;
-    @NotNull
-    private Long userId;
 
+    private Long userId;
+    private Long postsId;
+    private String content;
 }

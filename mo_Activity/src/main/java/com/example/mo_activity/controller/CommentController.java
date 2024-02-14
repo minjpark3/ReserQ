@@ -13,8 +13,8 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/api/comment")
-    public ResponseEntity<?> commentSave(@RequestBody CommentDto commentDto) {
-        commentService.createComment(commentDto);
+    public ResponseEntity<?> createComment(@RequestBody CommentDto commentDto) {
+        commentService.create(commentDto);
         return ResponseEntity.ok().body("댓글생성완료");
     }
 }

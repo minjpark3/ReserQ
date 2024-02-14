@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "subscribe_uk",
+                        name = "Follower",
                         columnNames = {"fromUserId","toUserId"}
                 )
         }
@@ -33,11 +33,10 @@ public class Follower {
     @Column(name = "toUserId")
     private Long toUserId;
 
+    @Column(name = "createDate")
     private LocalDateTime createDate;
-
     @PrePersist
-    private void createDate() {
-        this.createDate = LocalDateTime.now();
+    protected void onCreate() {
+        createDate = LocalDateTime.now();
     }
-
 }

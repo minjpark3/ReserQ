@@ -8,13 +8,18 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostsLikesRepository extends JpaRepository<PostsLikes, Long> {
-    @Modifying
-    @Query(value = "INSERT INTO PostsLikes(postsId, userId, createDate) VALUES(:postsId, :principalId,CURRENT_TIMESTAMP)", nativeQuery = true)
-    int mLikes(@Param("postsId")Long postsId,@Param("principalId")Long principalId);
-
+//    @Modifying
+//    @Query(value = "INSERT INTO PostsLikes(postsId, userId, createDate) VALUES(:postsId, :principalId,CURRENT_TIMESTAMP)", nativeQuery = true)
+//    int mLikes(@Param("postsId")Long postsId,@Param("principalId")Long principalId);
+//
     @Modifying
     @Query(value = "DELETE FROM PostsLikes WHERE postsId = :postsId AND userId = :principalId", nativeQuery = true)
     int mUnLikes(@Param("postsId")Long postsId,@Param("principalId")Long principalId);
+
+//    boolean existsByPostIdAndUserId(Long postId, Long userId);
+//
+//    boolean existsByActivityIdAndUserId(Long activityId, Long userId);
+
 
 }
 

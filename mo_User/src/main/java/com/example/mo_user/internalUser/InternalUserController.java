@@ -17,15 +17,15 @@ public class InternalUserController {
 
     @GetMapping("/check")
     public ResponseEntity<?> checkUserExists(
-            @RequestParam(name = "userId") Long principalId
+            @RequestParam(name = "userId") Long userId
     ) {
-        return ResponseEntity.ok().body(userService.checkUserExists(principalId));
+        return ResponseEntity.ok().body(userService.checkUserExists(userId));
     }
 
     @GetMapping("/find")
     public ResponseEntity<?> findUserName(
-            @RequestParam(name = "userId") Long principalId
+            @RequestParam(name = "userId") Long userId
     ) {
-        return ResponseEntity.ok().body(userService.findUserName(principalId));
+        return ResponseEntity.ok().body(userService.findUserName(userId));
     }
 }

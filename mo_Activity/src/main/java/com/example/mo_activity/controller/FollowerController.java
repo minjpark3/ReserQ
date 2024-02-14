@@ -3,33 +3,31 @@ package com.example.mo_activity.controller;
 import com.example.mo_activity.domain.dto.FollowerDto;
 import com.example.mo_activity.service.FollowerService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Map;
 
-@RequiredArgsConstructor
+@Slf4j
 @RestController
+@RequiredArgsConstructor
 public class FollowerController {
     private final FollowerService followerService;
 
-    @PostMapping("/api/follower/{toUserId}")
-    public ResponseEntity<String> followUser(@PathVariable("toUserId") Long toUserId, @RequestBody Map<String, Long> requestBody) {
-        Long fromUserId = requestBody.get("fromUserId");
-
-        try {
-            followerService.follow(fromUserId, toUserId);
-            return ResponseEntity.ok("팔로우가 완료되었습니다.");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    // POST 요청을 처리하는 메서드
+    @PostMapping("/api/follower")
+    public ResponseEntity<?> followUser(@RequestBody FollowerDto followerDto) {
+        followerService.follow(followerDto);
+        return ResponseEntity.ok().body("팔로우 성공");
     }
-
-    @DeleteMapping("/api/follower/{toUserId}")
-    public ResponseEntity<String> unsubscribe(@RequestBody FollowerDto followerDto, @PathVariable(name = "toUserId") Long userId) {
-        Long currentUserId = followerDto.getUserId();
-        followerService.unfollow(currentUserId, userId);
-        return ResponseEntity.ok("언팔됨");
+    // 언팔로우 기능을 담당하는 메서드
+    @PostMapping("/unfollow")
+    public ResponseEntity<String> unfollow(@RequestParam Long fromUserId, @RequestParam Long toUserId) {
+            followerService.unfollow(fromUserId, toUserId);
+            return ResponseEntity.ok("언팔로우되었습니다.");
     }
 }
 

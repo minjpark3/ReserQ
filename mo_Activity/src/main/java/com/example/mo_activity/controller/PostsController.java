@@ -18,7 +18,8 @@ public class PostsController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createPost(@RequestBody PostsReqDto postsReqDto) {
-        postsService.savePost(postsReqDto);
+        postsService.create(postsReqDto);
+
         return ResponseEntity.ok().body("포스트 생성완료");
     }
 }

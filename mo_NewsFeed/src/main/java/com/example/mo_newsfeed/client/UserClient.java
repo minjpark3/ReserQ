@@ -1,4 +1,4 @@
-package com.example.mo_activity.client;
+package com.example.mo_newsfeed.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,4 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface UserClient {
     @RequestMapping(method = RequestMethod.GET, value = "/api/internal/users/check", consumes = "application/json")
     boolean checkUserExists(@RequestParam(name = "userId") Long userId);
+
+    @RequestMapping(method =  RequestMethod.GET, value = "/api/internal/users/find", consumes = "application/json")
+    String findUserName(@RequestParam(name = "userId") Long userId);
 }

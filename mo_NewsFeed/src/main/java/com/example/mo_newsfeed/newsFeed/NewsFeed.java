@@ -1,39 +1,35 @@
-package com.example.mo_activity.domain.likes;
+package com.example.mo_newsfeed.newsFeed;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "Likes",
-                        columnNames = {"activityId","userId"}
-                )
-        }
-)
-public class PostsLikes {
+public class NewsFeed {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "userId")
+    @Column(name = "userId", nullable = false)
     private Long userId;
 
     @Column(name = "activityId")
     private Long activityId;
 
-    @Column(name = "status",nullable = false)
-    private boolean status = true;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private ActivityType type;
+
 
     @Column(name = "createDate")
     private LocalDateTime createDate;
@@ -42,9 +38,19 @@ public class PostsLikes {
         createDate = LocalDateTime.now();
     }
 
-    public PostsLikes(Long userId,Long activityId){
+
+    public NewsFeed(Long userId, ActivityType type, Long activityId) {
         this.userId = userId;
+        this.type = type;
         this.activityId = activityId;
+    }
+
+    public enum ActivityType {
+        POSTS,
+        COMMENT,
+        FOLLOWER,
+        POSTSLIKES
+
     }
 
 }
