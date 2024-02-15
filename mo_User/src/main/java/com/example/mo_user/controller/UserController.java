@@ -34,7 +34,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-    @PutMapping("/api/users/update/password/{userId}")
+    @PutMapping("/update/password/{userId}")
     public ResponseEntity<String> updatePassword(
             @PathVariable Long userId,
             @RequestBody PasswordUpdateDto passwordUpdateDto) {
@@ -46,19 +46,5 @@ public class UserController {
         }
     }
 
-
-    //===========================================================
-    //===========================================================
-    @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
-    }
-    @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserDetails(@PathVariable Long userId) {
-        // 사용자 ID를 받아와서 상세 정보 조회
-        User user = userService.getUserById(userId);
-        return ResponseEntity.ok(user);
-    }
     }
 

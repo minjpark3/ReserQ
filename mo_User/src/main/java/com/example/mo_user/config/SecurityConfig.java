@@ -29,9 +29,9 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST,"/api/join").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/api/verify").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/api/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/users/join").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/users/verify").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/users/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/refreshToken").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/internal/users/check").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/internal/users/find").permitAll()

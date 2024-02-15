@@ -46,7 +46,7 @@ public class NewsFeedController {
 //        return ResponseEntity.ok().body(newsfeeds);
 //    }
 
-    @GetMapping("/user/newsfeed/{userId}")
+    @GetMapping("/api/newsfeed/{userId}")
     public ResponseEntity<List<NewsFeedResDto>> getUserNewsfeed(@PathVariable Long userId) {
         List<NewsFeedResDto> userNewsfeed = newsFeedService.getUserNewsfeed(userId);
         return ResponseEntity.ok(userNewsfeed);
