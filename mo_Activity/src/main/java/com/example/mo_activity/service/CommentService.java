@@ -1,9 +1,9 @@
 package com.example.mo_activity.service;
 
-import com.example.mo_activity.CustomValidationApiException;
 import com.example.mo_activity.client.NewsfeedClient;
 import com.example.mo_activity.client.NewsfeedClientReq;
 import com.example.mo_activity.client.UserClient;
+import com.example.mo_activity.domain.ActivityType;
 import com.example.mo_activity.domain.comment.Comment;
 import com.example.mo_activity.domain.comment.CommentRepository;
 import com.example.mo_activity.domain.dto.CommentDto;
@@ -12,9 +12,6 @@ import com.example.mo_activity.domain.posts.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +22,8 @@ public class CommentService {
     private final NewsfeedClient newsfeedClient;
 
     @Transactional
-    public void create(CommentDto commentDto) {
+    public Long create(CommentDto commentDto) {
         Long userId = commentDto.getUserId();
-        String type = "COMMENT";
         Posts posts = postsRepository.findById(commentDto.getPostsId())
             .orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
 
@@ -41,16 +37,19 @@ public class CommentService {
                 .content(commentDto.getContent())
                 .build();
 
-        commentRepository.save(newComment);
-
+        Comment saved = commentRepository.save(newComment);
+        ActivityType activityType = ActivityType.fromString("COMMENT");
         // 뉴스피드 요청 DTO 생성
-        NewsfeedClientReq newsfeedClientReq = new NewsfeedClientReq(
-                userId,
-                type,
-                posts.getId()
-        );
+        NewsfeedClientReq newsfeedClientReq =NewsfeedClientReq.builder()
+                .userId(userId)
+                .relatedUserId(posts.getUserId())
+                .activityId(saved.getId())
+                .activityType("COMMENT")
+                .build();
+
         newsfeedClient.create(newsfeedClientReq);
 
+        return saved.getId();
+    }
     }
 
-}

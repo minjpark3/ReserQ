@@ -18,7 +18,8 @@ public class InternalFollowController {
 
 
     @GetMapping("/follows")
-    public ResponseEntity<List<Long>> findFollowing(@RequestParam(name = "userId") Long fromUserId) {
-        return ResponseEntity.ok().body(followerService.findByFollowingId(fromUserId));
+    public ResponseEntity<List<Long>> findFollowing(@RequestParam(name = "userId") Long userId) {
+        return ResponseEntity.ok().body(followerService.findByFollowingId(userId));
     }
+
 }

@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 public class NewsFeedDto {
     private Long userId;
-    private NewsFeed.ActivityType type;
+    private Long relatedUserId;
     private Long activityId;
+    private ActivityType activityType;
 }

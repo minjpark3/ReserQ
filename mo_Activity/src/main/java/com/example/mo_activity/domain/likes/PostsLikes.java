@@ -1,5 +1,6 @@
 package com.example.mo_activity.domain.likes;
 
+import com.example.mo_activity.domain.posts.Posts;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,11 +30,12 @@ public class PostsLikes {
     @Column(name = "userId")
     private Long userId;
 
-    @Column(name = "activityId")
-    private Long activityId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
+    private Posts posts;
 
     @Column(name = "status",nullable = false)
-    private boolean status = true;
+    private boolean status;
 
     @Column(name = "createDate")
     private LocalDateTime createDate;
@@ -42,9 +44,5 @@ public class PostsLikes {
         createDate = LocalDateTime.now();
     }
 
-    public PostsLikes(Long userId,Long activityId){
-        this.userId = userId;
-        this.activityId = activityId;
-    }
 
 }

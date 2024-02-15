@@ -14,9 +14,10 @@ public interface PostsLikesRepository extends JpaRepository<PostsLikes, Long> {
 //
     @Modifying
     @Query(value = "DELETE FROM PostsLikes WHERE postsId = :postsId AND userId = :principalId", nativeQuery = true)
-    int mUnLikes(@Param("postsId")Long postsId,@Param("principalId")Long principalId);
+    int mUnLikes(@Param("postsId")Long postsId,@Param("principalId")Long userId);
 
-//    boolean existsByPostIdAndUserId(Long postId, Long userId);
+ // boolean existsByPostIdAndUserId(Long postId, Long principalId);
+    boolean existsByPostsIdAndUserId(Long postsId, Long userId);
 //
 //    boolean existsByActivityIdAndUserId(Long activityId, Long userId);
 

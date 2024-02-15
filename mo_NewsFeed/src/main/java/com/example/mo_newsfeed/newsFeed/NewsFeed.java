@@ -5,30 +5,32 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Entity
+@Table(name = "Newsfeed")
 public class NewsFeed {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "userId", nullable = false)
+    @Column(name = "actionUserId")
     private Long userId;
+
+    @Column(name = "related_user_id")
+    private Long relatedUserId;
 
     @Column(name = "activityId")
     private Long activityId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
-    private ActivityType type;
+    @Column(name = "type")
+    private ActivityType activityType;
 
 
     @Column(name = "createDate")
@@ -38,19 +40,5 @@ public class NewsFeed {
         createDate = LocalDateTime.now();
     }
 
-
-    public NewsFeed(Long userId, ActivityType type, Long activityId) {
-        this.userId = userId;
-        this.type = type;
-        this.activityId = activityId;
-    }
-
-    public enum ActivityType {
-        POSTS,
-        COMMENT,
-        FOLLOWER,
-        POSTSLIKES
-
-    }
 
 }

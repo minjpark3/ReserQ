@@ -20,7 +20,7 @@ public interface FollowerRepository extends JpaRepository<Follower, Long> {
 //    @Query("SELECT f FROM Follower f WHERE f.fromUserId = :fromUserId AND f.toUserId = :toUserId")
 //    List<Follower> findFollowing(Long fromUserId, Long toUserId);
     void deleteByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
-    List<Follower> findByFromUserId(@Param("fromUserId")Long fromUserId);
+    List<Follower> findByFromUserId(@Param("fromUserId")Long userId);
     boolean existsByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
 
 

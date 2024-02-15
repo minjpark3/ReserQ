@@ -3,6 +3,7 @@ package com.example.mo_activity.controller;
 import com.example.mo_activity.domain.dto.PostsReqDto;
 import com.example.mo_activity.service.PostsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,14 +15,19 @@ import org.springframework.web.bind.annotation.*;
 public class PostsController {
 
     private final PostsService postsService;
-//    private final LikesService likesService;
+
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPost(@RequestBody PostsReqDto postsReqDto) {
-        postsService.create(postsReqDto);
-
-        return ResponseEntity.ok().body("포스트 생성완료");
+    public ResponseEntity<Long> createPost(
+            @RequestBody PostsReqDto postsReqDto) {
+        try {
+            Long postId = postsService.create(postsReqDto);
+            return ResponseEntity.ok(postId);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
+
 }
 //    @PostMapping("/{postsId}/likes")
 //    public ResponseEntity<?>postslikes(@PathVariable("postsId") Long postsId, @AuthenticationPrincipal UserDetailsImpl userDetails){

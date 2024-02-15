@@ -21,7 +21,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PutMapping("/{userId}")
+    @PutMapping("/update/{userId}")
     public ResponseEntity<User> updateUser(
             @PathVariable Long userId,
             @RequestBody User user) {
@@ -34,7 +34,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-    @PutMapping("/{userId}/update-password")
+    @PutMapping("/api/users/update/password/{userId}")
     public ResponseEntity<String> updatePassword(
             @PathVariable Long userId,
             @RequestBody PasswordUpdateDto passwordUpdateDto) {

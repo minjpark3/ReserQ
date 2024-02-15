@@ -1,10 +1,6 @@
 package com.example.mo_activity.domain.dto;
 
-import com.example.mo_activity.domain.posts.Posts;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,5 +11,7 @@ public class PostsReqDto {
     private String title;
     private String content;
 
-
+    public String content() {
+        return content;
+    }
 }

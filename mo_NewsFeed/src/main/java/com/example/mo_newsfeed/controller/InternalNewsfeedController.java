@@ -1,10 +1,10 @@
 package com.example.mo_newsfeed.controller;
 
-
 import com.example.mo_newsfeed.newsFeed.NewsFeedDto;
 import com.example.mo_newsfeed.service.NewsFeedService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("api/internal/newsfeeds")
@@ -16,10 +16,20 @@ public class InternalNewsfeedController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(
-            @RequestBody NewsFeedDto newsFeedDto
+    public ResponseEntity<Void> create(
+            @RequestBody NewsFeedDto request
     ) {
-        newsFeedService.create(newsFeedDto);
-        return ResponseEntity.ok().body("뉴스피드 생성 성공");
+        newsFeedService.create(request);
+        return ResponseEntity.ok().build();
     }
+//    @GetMapping("/newsfeeds")
+//    public ResponseEntity<Page<NewsFeed>> getNewsfeeds(Long userId, List<Long> toUserIds) {
+//        Page<NewsFeed> newsfeeds = newsFeedService.filterNewsfeeds(userId, toUserIds);
+//        return ResponseEntity.ok(newsfeeds);
+//    }
+//    public ResponseEntity<List<Long>> getUserToUserIds(@PathVariable("userId") Long userId) {
+//        List<Long> toUserIds = newsFeedService.getUserToUserIds(userId);
+//        return ResponseEntity.ok(toUserIds);
+//    }
+
 }

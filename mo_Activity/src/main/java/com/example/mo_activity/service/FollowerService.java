@@ -3,10 +3,12 @@ package com.example.mo_activity.service;
 import com.example.mo_activity.client.NewsfeedClient;
 import com.example.mo_activity.client.NewsfeedClientReq;
 import com.example.mo_activity.client.UserClient;
+import com.example.mo_activity.domain.ActivityType;
 import com.example.mo_activity.domain.dto.FollowerDto;
 import com.example.mo_activity.domain.follower.Follower;
 import com.example.mo_activity.domain.follower.FollowerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FollowerService {
@@ -24,15 +26,14 @@ public class FollowerService {
 
     @Transactional
     public void follow(FollowerDto followerDto) {
-        Long fromUserId = followerDto.getUserId();
+        Long userId = followerDto.getUserId();
         Long toUserId = followerDto.getToUserId();
-        String type = "FOLLOWER";
 
-        if (Objects.equals(fromUserId, toUserId)) {
+        if (Objects.equals(userId, toUserId)) {
             throw new IllegalArgumentException("자기 자신을 팔로우할 수 없습니다.");
         }
 
-        if (!userClient.checkUserExists(fromUserId)) {
+        if (!userClient.checkUserExists(userId)) {
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
         }
 
@@ -41,19 +42,21 @@ public class FollowerService {
         }
 
         Follower follower = Follower.builder()
-                .fromUserId(fromUserId)
+                .fromUserId(userId)
                 .toUserId(toUserId)
                 .build();
 
-       followerRepository.save(follower);
-
+        Follower saved =followerRepository.save(follower);
+        ActivityType activityType = ActivityType.fromString("FOLLOWER");
 
         // 뉴스피드 요청 DTO 생성
-        NewsfeedClientReq newsfeedClientReq =new NewsfeedClientReq(
-                fromUserId,
-                type,
-                toUserId
-        );
+        NewsfeedClientReq newsfeedClientReq =NewsfeedClientReq.builder()
+                .userId(userId)
+                .relatedUserId(toUserId)
+                .activityId(saved.getId())
+                .activityType("FOLLOWER")
+                .build();
+
         newsfeedClient.create(newsfeedClientReq);
     }
 
@@ -64,8 +67,8 @@ public class FollowerService {
     }
 
 
-    public List<Long> findByFollowingId(Long fromUserId) {
-        return followerRepository.findByFromUserId(fromUserId).stream()
+    public List<Long> findByFollowingId(Long userId) {
+        return followerRepository.findByFromUserId(userId).stream()
                 .map(Follower::getToUserId)
                 .toList();
     }

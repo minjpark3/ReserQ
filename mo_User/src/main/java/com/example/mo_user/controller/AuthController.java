@@ -24,7 +24,7 @@ public class AuthController {
     private final UserService authService;
 
     //회원가입
-    @PostMapping("/api/join")
+    @PostMapping("/api/users/join")
     public ResponseEntity<String> signup(@Valid @RequestBody SignupDto signupDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // 유효성 검사 에러가 있을 경우 처리
@@ -43,7 +43,7 @@ public class AuthController {
     }
 
     //가입시 메일인증
-    @PostMapping("/api/verify")
+    @PostMapping("/api/users/verify")
     public ResponseEntity<String> verifyEmail(@RequestBody VerificationRequest verificationRequest) {
         String email = verificationRequest.getEmail();
         String token = verificationRequest.getToken();
@@ -61,7 +61,7 @@ public class AuthController {
     }
 
     //로그인
-    @PostMapping("/api/login")
+    @PostMapping("/api/users/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         try {
             String jwtToken = authService.login(loginRequest);

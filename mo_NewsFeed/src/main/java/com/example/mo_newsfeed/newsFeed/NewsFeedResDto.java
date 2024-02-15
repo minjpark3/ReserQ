@@ -11,6 +11,16 @@ import lombok.ToString;
 @ToString
 public class NewsFeedResDto {
     private Long userId;
-    private String activityType;
+    private Long relatedUserId;
     private Long activityId;
+    private String activityType;
+
+    public static NewsFeedResDto from(NewsFeed newsfeed) {
+        return new NewsFeedResDto(
+                newsfeed.getId(),
+                newsfeed.getUserId(),
+                newsfeed.getRelatedUserId(),
+                newsfeed.getActivityType().name()
+        );
+    }
 }
