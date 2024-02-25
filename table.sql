@@ -15,16 +15,16 @@ CREATE TABLE Users (
 CREATE TABLE Posts (
                        postsId BIGINT AUTO_INCREMENT PRIMARY KEY,
                        userId BIGINT NOT NULL,
-                       title VARCHAR(255) NOT NULL,
-                       content TEXT NOT NULL,
-                       createDate DATETIME ,
+                       title VARCHAR(255) ,
+                       content VARCHAR(255),
+                       createDate DATETIME,
                        FOREIGN KEY (userId) REFERENCES Users(userId)
 );
 
 
 CREATE TABLE Comment (
                          commentId BIGINT AUTO_INCREMENT PRIMARY KEY,
-                         content VARCHAR(200) NOT NULL,
+                         content VARCHAR(200),
                          userId BIGINT,
                          postsId BIGINT,
                          createDate DATETIME,
@@ -46,21 +46,22 @@ CREATE TABLE Follower (
 
 CREATE TABLE PostsLikes (
                             id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                            userId BIGINT NOT NULL,
-                            activityId BIGINT NOT NULL,
-                            status BOOLEAN NOT NULL DEFAULT TRUE,
+                            userId BIGINT,
+                            post_id BIGINT NOT NULL,
+                            status BOOLEAN NOT NULL,
                             createDate DATETIME,
                             FOREIGN KEY (userId) REFERENCES Users(userId),
-                            FOREIGN KEY (activityId) REFERENCES Posts(postsId)
+                            FOREIGN KEY (post_id) REFERENCES Posts(postsId)
 );
 
 
 CREATE TABLE NewsFeed (
                           id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                          userId BIGINT NOT NULL,
+                          actionUserId BIGINT,
+                          related_user_id BIGINT,
                           activityId BIGINT,
-                          type VARCHAR(20) NOT NULL,
+                          type VARCHAR(255),
                           createDate DATETIME,
                           FOREIGN KEY (userId) REFERENCES Users(userId),
-
 );
+
