@@ -2,23 +2,19 @@
 ReserQ는 ❓
 SNS를 기반으로 사용자가 상품을 등록하고 상품의 재고관리를 효율적으로 할 수있는 프로그램입니다.
 일반상품과 특정시간예약구매상품을 관리하여 사용자의 편리성을 증진시켰습니다.
+
 Tech Stack
-onealog
+작업중
 
 Architecture
 작업중
 
-onealog
-
 ERD
 작업중
-
-onealog
 
 🛠Step to run
 window 환경에서 구현 및 실행되었습니다.
 
-사용방법입니다.
 
 Local server
 1. github에서 해당 프로젝트의 repository를 clone합니다.
