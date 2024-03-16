@@ -1,0 +1,63 @@
+server:
+  port: 8091
+  servlet:
+    context-path: /
+    encoding:
+      charset: utf-8
+      enabled: true
+
+spring:
+  mail:
+    # Google smtp server ??
+    host: smtp.gmail.com
+    port: 587
+    username: minj9850610@gmail.com
+    password: czkpvbakfvxflpfr
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  mvc:
+    view:
+      prefix: /views/
+      suffix: .jsp
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ReserQ?serverTimezone=Asia/Seoul
+    username: root
+    password: cos1234
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+
+  security:
+    user:
+      name: test
+      password: 1234
+
+
+jwt:
+  secret-key:
+    access: reservation_purchase_2024_access_secret_key
+    refresh: reservation_purchase_2024_accefs_secret_key
+
+  expired-time:
+    token:
+      access: 2500000000
+      refresh: 25000000000000
+
+
+

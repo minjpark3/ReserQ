@@ -7,7 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 public class UserProfileDto {
     private boolean pageOwnerState;
     private boolean subscribeState;

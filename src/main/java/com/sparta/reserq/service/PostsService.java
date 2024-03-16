@@ -2,23 +2,16 @@ package com.sparta.reserq.service;
 
 
 import com.sparta.reserq.domain.comment.CommentRepository;
-import com.sparta.reserq.domain.dto.PostsReqDto;
 import com.sparta.reserq.domain.posts.Posts;
 import com.sparta.reserq.domain.posts.PostsRepository;
 import com.sparta.reserq.domain.user.User;
-import com.sparta.reserq.domain.user.UserRepository;
 import com.sparta.reserq.config.jwt.UserDetailsImpl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.awt.*;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -78,20 +71,22 @@ public class PostsService {
 //    }
 
 
-    public Posts updatePost(Long id, PostsReqDto postsReqDto) {
-        Optional<Posts> existingPostOptional = postsRepository.findById(id);
+//    public Posts updatePost(Long id, PostsReqDto postsReqDto) {
+//        Optional<Posts> existingPostOptional = postsRepository.findById(id);
+//
+//        if (existingPostOptional.isPresent()) {
+//            Posts existingPost = existingPostOptional.get();
+//            existingPost.setTitle(postsReqDto.getTitle());
+//            existingPost.setContent(postsReqDto.getContent());
+//
+//            // 업데이트된 게시글 정보를 저장
+//            return postsRepository.save(existingPost);
+//        } else {
+//            throw new EntityNotFoundException("게시글을 찾을 수 없음: " + id);
+//        }
+//    }
 
-        if (existingPostOptional.isPresent()) {
-            Posts existingPost = existingPostOptional.get();
-            existingPost.setTitle(postsReqDto.getTitle());
-            existingPost.setContent(postsReqDto.getContent());
 
-            // 업데이트된 게시글 정보를 저장
-            return postsRepository.save(existingPost);
-        } else {
-            throw new EntityNotFoundException("게시글을 찾을 수 없음: " + id);
-        }
-    }
 
     @Transactional
     public void deletePost(Long postId, UserDetailsImpl userDetails) {

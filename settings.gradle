@@ -1,1 +1,9 @@
 rootProject.name = 'ReserQ'
+
+include 'mo_User'
+include 'mo_Activity'
+include 'mo_NewsFeed'
+include 'mo_API_Gateway'
+include 'mo_Stock'
+include 'mo_Payment'
+include 'mo_Product'

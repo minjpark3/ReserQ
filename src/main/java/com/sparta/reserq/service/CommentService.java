@@ -8,6 +8,7 @@ import com.sparta.reserq.domain.posts.Posts;
 import com.sparta.reserq.domain.user.User;
 import com.sparta.reserq.domain.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -15,27 +16,44 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
+@Builder
 public class CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
+//    @Transactional
+//    public Comment createComment(String content, Long postsId, Long userId){
+//
+//        Posts posts= new Posts();
+//        posts.setId(postsId);
+//        User userEntity =userRepository.findById(userId).orElseThrow(()->{
+//            throw new CustomValidationApiException("유저 아이디를 찾을수 없습니다.");
+//        });
+//
+//        Comment comment= new Comment();
+//        comment.setContent(content);
+//        comment.setPosts(posts);
+//        comment.setUser(userEntity);
+//
+//        return commentRepository.save(comment);
+//
+//    }
+
     @Transactional
-    public Comment createComment(String content, Long postsId, Long userId){
+    public Comment createComment(String content, Long postsId, Long userId) {
+        Posts posts = Posts.builder().id(postsId).build();
+        User userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomValidationApiException("유저 아이디를 찾을수 없습니다."));
 
-        Posts posts= new Posts();
-        posts.setId(postsId);
-        User userEntity =userRepository.findById(userId).orElseThrow(()->{
-            throw new CustomValidationApiException("유저 아이디를 찾을수 없습니다.");
-        });
+        Comment comment = Comment.builder()
+                .content(content)
+                .posts(posts)
+                .user(userEntity)
+                .build();
 
-        Comment comment= new Comment();
-        comment.setContent(content);
-        comment.setPosts(posts);
-        comment.setUser(userEntity);
-
-        return commentRepository.save(comment);
-
+        return commentRepository.save(comment); // 생성된 코멘트를 데이터베이스에 저장하고 반환
     }
+
     @Transactional
     public void unComment(Long id, UserDetailsImpl userDetails) {
         Comment comment = commentRepository.findById(id)

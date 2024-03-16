@@ -1,18 +1,13 @@
 package com.sparta.reserq.domain.follower;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sparta.reserq.domain.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
 @Entity
 @Table(
         uniqueConstraints = {
@@ -27,12 +22,10 @@ public class Follower {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnoreProperties({"posts"})
     @ManyToOne
     @JoinColumn(name = "fromUserId")
     private User fromUser;
 
-    @JsonIgnoreProperties({"posts"})
     @ManyToOne
     @JoinColumn(name = "toUserId")
     private User toUser;

@@ -4,7 +4,8 @@ import com.sparta.reserq.domain.dto.LoginRequest;
 import com.sparta.reserq.domain.dto.SignupDto;
 import com.sparta.reserq.domain.dto.VerificationRequest;
 import com.sparta.reserq.domain.user.User;
-import com.sparta.reserq.service.AuthService;
+
+import com.sparta.reserq.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Controller
 public class AuthController {
-    private final AuthService authService;
+    private final UserService authService;
 
     //회원가입
     @PostMapping("/api/join")
