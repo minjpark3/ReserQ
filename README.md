@@ -5,11 +5,10 @@ SNS를 기반으로 사용자가 상품을 등록하고 상품의 재고관리�
 ## ❓  기능 엿보기 
 
 ### Tech Stack👉
-
+![기술스택](https://github.com/user-attachments/assets/1a44b303-025a-4a14-89f5-7d0183bca19f)
 ### Architecture👉
-
+![reservesite](https://github.com/user-attachments/assets/d0116be3-9c91-4050-8974-fa4c6ca12867)
 ### ERD👉
-
 
 ## 🛠Step to run 
 window 환경에서 구현 및 실행되었습니다.
