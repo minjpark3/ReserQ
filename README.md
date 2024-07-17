@@ -9,7 +9,7 @@ SNS를 기반으로 사용자가 상품을 등록하고 상품의 재고관리�
 ### Architecture👉
 ![reservesite](https://github.com/user-attachments/assets/d0116be3-9c91-4050-8974-fa4c6ca12867)
 ### ERD👉
-
+![reserqERD](https://github.com/user-attachments/assets/ae8fcb8c-bcbf-4097-a4fa-948cb654bba7)
 ## 🛠Step to run 
 window 환경에서 구현 및 실행되었습니다.
 Local server
